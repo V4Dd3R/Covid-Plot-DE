@@ -25,7 +25,7 @@ fig.add_trace(go.Scatter(
 fig.update_traces(hoverinfo='x+y', mode='lines')                                    # Hover-Verhalten und Line-Modus
 fig.update_layout(
             legend=dict(y=0.5, font_size=16),                                       # Legende auf halber Höhe (y=0,5)
-            title='Tägliche Covid-19 Infektionen Deutschland',                      # Titel des Plots
+            title='<b>Tägliche Covid-19 Infektionen Deutschland</b> <br> <a style="font-size: 17px; href="https://opendata.ecdc.europa.eu/">Datenquelle</a>',   # Titel des Plots
             title_x=0.5,                                                            # Titel zentrieren
             xaxis_title='Datum',                                                    # Achsenbeschriftung
             yaxis_title='Anzahl Neuinfektionen pro Tag',
@@ -34,6 +34,6 @@ fig.update_layout(
                 size=18
             ))
 fig.update_xaxes(autorange="reversed", tickangle=45, dtick=28)
-fig.write_html('CovidDE.html',                                                      # Erzeugt html file diesen Namens
+fig.write_html('index.html',                                                        # Erzeugt html file diesen Namens
                auto_open=True,                                                      # File sofort öffnen (Browser)
-               include_plotlyjs='directory')                                        # Plotly-js file nur 1x erzeugen
+               include_plotlyjs='True')                                             # Plotly-js file in .html integrieren
