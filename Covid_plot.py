@@ -2,8 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from scipy.signal import savgol_filter
+from datetime import date
 #######################################
 # Einlesen der Daten
+today = date.today()
 data = pd.read_csv('https://opendata.ecdc.europa.eu/covid19/casedistribution/csv',
                    sep=','
                    )
@@ -24,16 +26,19 @@ fig.add_trace(go.Scatter(
 ))
 fig.update_traces(hoverinfo='x+y', mode='lines')                                    # Hover-Verhalten und Line-Modus
 fig.update_layout(
-            legend=dict(y=0.5, font_size=16),                                       # Legende auf halber Höhe (y=0,5)
-            title='<b>Tägliche Covid-19 Infektionen Deutschland</b> <br> <a style="font-size: 17px; href="https://opendata.ecdc.europa.eu/">Datenquelle</a>',   # Titel des Plots
+            legend=dict(font_size=16),                                              # Legende
+            title_font=dict(size=18),
+            title=('<b>Tägliche Covid-19 Infektionen Deutschland</b> <br>' +        # Titel des Plots
+                   'Stand: ' + today.strftime("%d %b %Y") +
+                   ', <a href="https://opendata.ecdc.europa.eu/">Quelle</a>'),
             title_x=0.5,                                                            # Titel zentrieren
             xaxis_title='Datum',                                                    # Achsenbeschriftung
             yaxis_title='Anzahl Neuinfektionen pro Tag',
             font=dict(                                                              # Schriftgröße und -Art
                 family='Arial',
-                size=18
+                size=16
             ))
 fig.update_xaxes(autorange="reversed", tickangle=45, dtick=28)
 fig.write_html('index.html',                                                        # Erzeugt html file diesen Namens
                auto_open=True,                                                      # File sofort öffnen (Browser)
-               include_plotlyjs='True')                                             # Plotly-js file in .html integrieren
+               include_plotlyjs='True')                                             # Plotly-js in .html integrieren
