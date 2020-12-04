@@ -32,7 +32,8 @@ fig.update_layout(
             title_font=dict(size=18),
             title=('<b>Tägliche Covid-19 Infektionen Deutschland</b> <br>' +        # Titel des Plots
                    'Stand: ' + today.strftime("%d %b %Y") +
-                   ', <a href="https://opendata.ecdc.europa.eu/">Quelle</a>'),
+                   ' <a style="font-size:16px"; href="https://opendata.ecdc.europa.eu/">(Datenquelle)</a>' +
+                   ' <a style="font-size:16px"; href="https://github.com/V4Dd3R/Covid-Plot-DE">(Quellcode)</a>'),
             title_x=0.5,                                                            # Titel zentrieren
             xaxis_title='Datum',                                                    # Achsenbeschriftung
             yaxis_title='Anzahl Neuinfektionen pro Tag',
