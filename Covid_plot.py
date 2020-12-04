@@ -17,14 +17,16 @@ fig = make_subplots()
 fig.add_trace(go.Scatter(
     x=subset_DE.dateRep,                                                            # Daten für x-Achse
     y=savgol_filter(subset_DE.cases, 21, 2),                                        # Daten für y-Achse
-    name='Fallzahlen geglättet'                                                     # Name der Datenreihe
+    name='Fallzahlen geglättet',                                                    # Name der Datenreihe
+    mode='lines'
 ))
 fig.add_trace(go.Scatter(
     x=subset_DE.dateRep,                                                            # Daten für x-Achse
     y=subset_DE.cases,                                                              # Daten für y-Achse
-    name='Übermittelte Fälle'                                                       # Name der Datenreihe
+    name='Übermittelte Fälle',                                                      # Name der Datenreihe
+    mode='lines+markers'
 ))
-fig.update_traces(hoverinfo='x+y', mode='lines')                                    # Hover-Verhalten und Line-Modus
+fig.update_traces(hoverinfo='x+y')                                                  # Hover-Verhalten
 fig.update_layout(
             legend=dict(font_size=16),                                              # Legende
             title_font=dict(size=18),
