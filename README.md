@@ -8,7 +8,7 @@ installiert werden.
 #### TODO:
 - [x] Plot der aktuellen Fahlzahlen als HTML Datei erzeugen und bei github pages hosten
 - [ ] Automatisches Tägliches Update der index.html datei im github-pages branch *(via cron job auf Raspberry Pi?)*
-### 
+------------
 #### Introduction
 Repository for current covid-19 infection number plots via plotly. The current plot can be visited at 
 https://v4dd3r.github.io/Covid-Plot-DE/index.html. 
