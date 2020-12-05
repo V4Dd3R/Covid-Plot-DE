@@ -7,7 +7,7 @@ Die benötigten Packages sind in der Datei requirements.txt hinterlegt.Diese kö
 installiert werden.
 #### TODO:
 - [x] Plot der aktuellen Fahlzahlen als HTML Datei erzeugen und bei github pages hosten
-- [ ] Automatisches Tägliches Update der index.html datei im github-pages branch *(via cron job auf Raspberry Pi?)*
+- [ ] Automatisches Tägliches Update der index.html datei im github-pages branch *(via cron job auf Raspberry Pi?)* #1
 ------------
 #### Introduction
 Repository for current covid-19 infection number plots via plotly. The current plot can be visited at 
@@ -17,4 +17,4 @@ The required packages can be installed via `pip install -r
 requirements.txt`.
 #### TODO:
 - [x] Plot of daily infections as html file generated and hosted on github pages
-- [ ] Automatic daily update of index.html in github-pages branch *(via cron job on raspberry pi?)*
+- [ ] Automatic daily update of index.html in github-pages branch *(via cron job on raspberry pi?)* #1
