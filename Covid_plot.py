@@ -27,6 +27,7 @@ fig.add_trace(go.Scatter(
     mode='lines+markers'
 ))
 fig.update_traces(hoverinfo='x+y')                                                  # Hover-Verhalten
+fig.update_yaxes(exponentformat='none', tickformat='{}')
 fig.update_layout(
             legend=dict(font_size=16),                                              # Legende
             title_font=dict(size=18),
@@ -40,7 +41,9 @@ fig.update_layout(
             font=dict(                                                              # Schriftgröße und -Art
                 family='Arial',
                 size=16
-            ))
+            ),
+            plot_bgcolor="LightGray"
+)
 fig.update_xaxes(autorange="reversed", tickangle=45, dtick=28)
 fig.write_html('index.html',                                                        # Erzeugt html file diesen Namens
                auto_open=True,                                                      # File sofort öffnen (Browser)
