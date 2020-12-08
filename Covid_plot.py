@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+import numpy as np
 from plotly.subplots import make_subplots
 from scipy.signal import savgol_filter
 from datetime import date
@@ -16,13 +17,13 @@ fig = make_subplots()
 # Glätten der Zahlen über Savitzky-Golay-Filter (Zeitraum von 3 Wochen, 2. Ordnung)
 fig.add_trace(go.Scatter(
     x=subset_DE.dateRep,                                                            # Daten für x-Achse
-    y=savgol_filter(subset_DE.cases, 21, 2),                                        # Daten für y-Achse
+    y=np.round(savgol_filter(subset_DE.cases, 21, 2)),                              # Daten für y-Achse
     name='Fallzahlen geglättet',                                                    # Name der Datenreihe
     mode='lines'
 ))
 fig.add_trace(go.Scatter(
     x=subset_DE.dateRep,                                                            # Daten für x-Achse
-    y=subset_DE.cases,                                                              # Daten für y-Achse
+    y=round(subset_DE.cases),                                                       # Daten für y-Achse
     name='Übermittelte Fälle',                                                      # Name der Datenreihe
     mode='lines+markers'
 ))
