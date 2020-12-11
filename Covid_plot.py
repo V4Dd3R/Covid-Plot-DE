@@ -34,46 +34,56 @@ config = {
 }
 # Glätten der Zahlen über Savitzky-Golay-Filter (Zeitraum von 3 Wochen, 2. Ordnung)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,  # Daten für x-Achse
-    y=round(subset_DE.cases),  # Daten für y-Achse
-    name='Tägliche Infektionen',  # Name der Datenreihe
+    x=subset_DE.dateRep,            # Daten für x-Achse
+    y=round(subset_DE.cases),       # Daten für y-Achse
+    name='Tägliche Positivtests',   # Name der Datenreihe
     mode='lines+markers'),
     secondary_y=False)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,  # Daten für x-Achse
+    x=subset_DE.dateRep,            # Daten für x-Achse
     y=np.round(savgol_filter(subset_DE.cases, 21, 2)),  # Daten für y-Achse
-    name='Tägliche Infektionen (geglättet)',  # Name der Datenreihe
+    name='Tägliche Positivtests (geglättet)',  # Name der Datenreihe
     mode='lines'),
     secondary_y=False)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,  # Daten für x-Achse
-    y=round(subset_DE.deaths),  # Daten für y-Achse
-    name='Tägliche Todesfälle',  # Name der Datenreihe
+    x=subset_DE.dateRep,            # Daten für x-Achse
+    y=round(subset_DE.deaths),      # Daten für y-Achse
+    name='Tägliche Todesfälle',     # Name der Datenreihe
     mode='lines+markers'),
     secondary_y=True)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,  # Daten für x-Achse
+    x=subset_DE.dateRep,            # Daten für x-Achse
     y=np.round(savgol_filter(subset_DE.deaths, 21, 2)),  # Daten für y-Achse
     name='Tägliche Todesfälle (geglättet)',  # Name der Datenreihe
     mode='lines'),
     secondary_y=True)
 fig.update_traces(hoverinfo='x+y')  # Hover-Verhalten
-fig.update_yaxes(exponentformat='none', tickformat='{}')
+fig.update_yaxes(exponentformat='none', tickformat='{}',
+                 title_text='Anzahl positiver Tests pro Tag', secondary_y=False)
+fig.update_yaxes(exponentformat='none', tickformat='{}',
+                 title_text='Anzahl Todesfälle pro Tag', secondary_y=True)
 fig.update_layout(
-    legend=dict(font_size=16),  # Legende
+    legend=dict(font_size=15,       # Legendeneinstellungen
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=0.01,
+                bgcolor="white",
+                ),
     title_font=dict(size=18),
-    title=('<b>Tägliche Covid-19 Infektionen Deutschland</b> <br>' +  # Titel des Plots
+    title=('<b>Covid-19 Übersicht Deutschland</b> <br>' +  # Titel des Plots
            'Stand: ' + today.strftime("%d %b %Y") +
            ' <a style="font-size:16px"; href="https://opendata.ecdc.europa.eu/">(Datenquelle)</a>' +
            ' <a style="font-size:16px"; href="https://github.com/V4Dd3R/Covid-Plot-DE">(Quellcode)</a>'),
-    title_x=0.5,  # Titel zentrieren
-    xaxis_title='Datum',  # Achsenbeschriftung
-    yaxis_title='Anzahl Neuinfektionen pro Tag',
-    font=dict(  # Schriftgröße und -Art
+    title_x=0.5,                    # Titel zentrieren
+    title_xanchor='center',
+    xaxis_title='Datum',            # Achsenbeschriftung
+    font=dict(                      # Schriftgröße und -Art
         family='Arial',
         size=16
     ),
-    plot_bgcolor="LightGray"
+    plot_bgcolor="LightGray",       # Hintergrundfarbe
+
 )
 fig.update_xaxes(autorange="reversed", tickangle=45, dtick=28)
 fig.write_html('index.html',  # Erzeugt html file diesen Namens
