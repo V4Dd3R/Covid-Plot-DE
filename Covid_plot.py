@@ -1,18 +1,21 @@
+import datetime as dt
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-import numpy as np
 from plotly.subplots import make_subplots
 from scipy.signal import savgol_filter
-from datetime import date
-
 #######################################
 # Einlesen der Daten
-today = date.today()
-data = pd.read_csv('https://opendata.ecdc.europa.eu/covid19/casedistribution/csv',
+data = pd.read_csv('https://covid.ourworldindata.org/data/owid-covid-data.csv',
                    sep=','
                    )
-# Für anderes Land andere geoId verwenden
-subset_DE = data[data.geoId == 'DE']
+# Für anderes Land anderen isocode verwenden
+subset_DE = data[data.iso_code == 'DEU']                                        # Statistik für Deutschland
+cases = subset_DE.new_cases                                                     # Neue Positivtests
+deaths = subset_DE.new_deaths                                                   # Neue Todesfälle
+dates_str = subset_DE.date                                                      # Datum (noch in str format)
+dates = [dt.datetime.strptime(date, '%Y-%m-%d').date() for date in dates_str]   # Datum in datetime format
+today = dt.date.today()                                                         # Heutiges Datum (für Titel)
 # Plot (benötigt Plotly-Installation)
 fig = make_subplots(specs=[[{"secondary_y": True}]])
 config = {
@@ -34,36 +37,36 @@ config = {
 }
 # Glätten der Zahlen über Savitzky-Golay-Filter (Zeitraum von 3 Wochen, 2. Ordnung)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,            # Daten für x-Achse
-    y=round(subset_DE.cases),       # Daten für y-Achse
-    name='Tägliche Positivtests',   # Name der Datenreihe
+    x=dates,                                    # Daten für x-Achse
+    y=round(cases),                             # Daten für y-Achse
+    name='Tägliche Positivtests',               # Name der Datenreihe
     mode='lines+markers'),
     secondary_y=False)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,            # Daten für x-Achse
-    y=np.round(savgol_filter(subset_DE.cases, 21, 2)),  # Daten für y-Achse
-    name='Tägliche Positivtests (geglättet)',  # Name der Datenreihe
+    x=dates,                                    # Daten für x-Achse
+    y=np.round(savgol_filter(cases, 21, 2)),    # Daten für y-Achse
+    name='Tägliche Positivtests (geglättet)',   # Name der Datenreihe
     mode='lines'),
     secondary_y=False)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,            # Daten für x-Achse
-    y=round(subset_DE.deaths),      # Daten für y-Achse
-    name='Tägliche Todesfälle',     # Name der Datenreihe
+    x=dates,                                    # Daten für x-Achse
+    y=round(deaths),                            # Daten für y-Achse
+    name='Tägliche Todesfälle',                 # Name der Datenreihe
     mode='lines+markers'),
     secondary_y=True)
 fig.add_trace(go.Scatter(
-    x=subset_DE.dateRep,            # Daten für x-Achse
-    y=np.round(savgol_filter(subset_DE.deaths, 21, 2)),  # Daten für y-Achse
-    name='Tägliche Todesfälle (geglättet)',  # Name der Datenreihe
+    x=dates,                                    # Daten für x-Achse
+    y=np.round(savgol_filter(deaths, 21, 2)),   # Daten für y-Achse
+    name='Tägliche Todesfälle (geglättet)',     # Name der Datenreihe
     mode='lines'),
     secondary_y=True)
-fig.update_traces(hoverinfo='x+y')  # Hover-Verhalten
+fig.update_traces(hoverinfo='x+y')              # Hover-Verhalten
 fig.update_yaxes(exponentformat='none', tickformat='{}',
                  title_text='Anzahl positiver Tests pro Tag', secondary_y=False)
 fig.update_yaxes(exponentformat='none', tickformat='{}',
                  title_text='Anzahl Todesfälle pro Tag', secondary_y=True)
 fig.update_layout(
-    legend=dict(font_size=15,       # Legendeneinstellungen
+    legend=dict(font_size=15,                   # Legendeneinstellungen
                 yanchor="top",
                 y=0.99,
                 xanchor="left",
@@ -73,7 +76,7 @@ fig.update_layout(
     title_font=dict(size=18),
     title=('<b>Covid-19 Übersicht Deutschland</b> <br>' +  # Titel des Plots
            'Stand: ' + today.strftime("%d %b %Y") +
-           ' <a style="font-size:16px"; href="https://opendata.ecdc.europa.eu/">(Datenquelle)</a>' +
+           ' <a style="font-size:16px"; href="https://ourworldindata.org/coronavirus">(Datenquelle)</a>' +
            ' <a style="font-size:16px"; href="https://github.com/V4Dd3R/Covid-Plot-DE">(Quellcode)</a>'),
     title_x=0.5,                    # Titel zentrieren
     title_xanchor='center',
@@ -85,7 +88,6 @@ fig.update_layout(
     plot_bgcolor="LightGray",       # Hintergrundfarbe
 
 )
-fig.update_xaxes(autorange="reversed", tickangle=45, dtick=28)
 fig.write_html('index.html',  # Erzeugt html file diesen Namens
                auto_open=True,  # File sofort öffnen (Browser)
                include_plotlyjs='True',  # Plotly-js in .html integrieren
